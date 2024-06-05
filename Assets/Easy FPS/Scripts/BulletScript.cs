@@ -30,7 +30,12 @@ public class BulletScript : MonoBehaviour {
 				}
 				if(hit.transform.tag == "Dummie"){
 					Instantiate(bloodEffect, hit.point, Quaternion.LookRotation(hit.normal));
-					Destroy(gameObject);
+					ActorStats stats = Helpers.CheckOnComponent<ActorStats>(hit.transform.gameObject);
+					if (stats != null) {
+                        float damage = Player.Instance.actorStats.damage;
+                        stats.TakeDamage(damage);
+                    }
+                    Destroy(gameObject);
 				}
 			}		
 			Destroy(gameObject);

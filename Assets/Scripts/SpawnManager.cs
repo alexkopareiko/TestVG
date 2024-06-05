@@ -13,9 +13,10 @@ public class SpawnManager : MonoBehaviour
         {
             if (s_Instance == null)
             {
-                var singletonObject = new GameObject("SpawnManager");
-                s_Instance = singletonObject.AddComponent<SpawnManager>();
-                //DontDestroyOnLoad(singletonObject);
+                var go = ResourceManager.Instance.GetFeature("SpawnManager");
+                var instantiatedGO = Instantiate(go);
+                s_Instance = instantiatedGO.GetComponent<SpawnManager>();
+                //DontDestroyOnLoad(instantiatedGO);
             }
             return s_Instance;
         }
