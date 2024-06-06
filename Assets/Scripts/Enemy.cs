@@ -22,6 +22,9 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance.isGamePaused)
+			return;
+        
         if (_target == null)
         {
             FindPlayer();
@@ -67,5 +70,11 @@ public class Enemy : MonoBehaviour
             _animator.SetTrigger("Attack");
         }
         _target = null;
+    }
+
+    public void Die()
+    {
+        _agent.isStopped = true;
+        enabled = false;
     }
 }

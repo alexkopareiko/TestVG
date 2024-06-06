@@ -25,6 +25,10 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject _enemyPrefab;
     [SerializeField] private List<GameObject> _placesToSpawn = new List<GameObject>();
 
+    private List<GameObject> _enemies = new List<GameObject>();
+
+
+
 
     private void Awake()
     {
@@ -47,10 +51,25 @@ public class SpawnManager : MonoBehaviour
     public void SpawnEnemies()
     {
         int count = GameManager.Instance.level;
+
+        foreach (var item in _enemies)
+            Destroy(item);
+
+        _enemies.Clear();
         for (int i = 0; i < count; i++)
         {
             Vector3 placeToSpawn = _placesToSpawn[UnityEngine.Random.Range(0, _placesToSpawn.Count)].transform.position;
-            Instantiate(_enemyPrefab, placeToSpawn, Quaternion.identity);
+            GameObject enemy = Instantiate(_enemyPrefab, placeToSpawn, Quaternion.identity);
+            _enemies.Add(enemy);
+        }
+    }
+
+    public void RemoveMe(GameObject enemy)
+    {
+        _enemies.Remove(enemy);
+        if (_enemies.Count == 0)
+        {
+            GameManager.Instance.Win();
         }
     }
 

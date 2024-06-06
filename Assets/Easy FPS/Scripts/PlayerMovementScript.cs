@@ -31,6 +31,10 @@ public class PlayerMovementScript : MonoBehaviour {
 	* Raycasting for meele attacks and input movement handling here.
 	*/
 	void FixedUpdate(){
+
+		if (GameManager.Instance.isGamePaused)
+			return;
+
 		RaycastForMeleeAttacks ();
 
 		PlayerMovementLogic ();

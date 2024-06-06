@@ -48,6 +48,9 @@ public class GunInventory : MonoBehaviour {
 	 */
 	void Update(){
 
+		if (GameManager.Instance.isGamePaused)
+			return;
+
 		switchWeaponCooldown += 1 * Time.deltaTime;
 		if(switchWeaponCooldown > 1.2f && Input.GetKey(KeyCode.LeftShift) == false){
 			Create_Weapon();

@@ -14,7 +14,7 @@ public class ResourceManager : MonoBehaviour
             {
                 var singletonObject = new GameObject("ResourceManager");
                 s_Instance = singletonObject.AddComponent<ResourceManager>();
-                //DontDestroyOnLoad(singletonObject);
+                DontDestroyOnLoad(singletonObject);
             }
             return s_Instance;
         }

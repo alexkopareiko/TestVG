@@ -20,6 +20,9 @@ public class MouseLookScript : MonoBehaviour {
 	*/
 	void  Update(){
 
+		if (GameManager.Instance.isGamePaused)
+			return;
+			
 		MouseInputMovement();
 
 		if (Input.GetKeyDown (KeyCode.L)) {
@@ -151,8 +154,10 @@ private GunScript gun;
  */
 void WeaponRotation(){
 	if(!weapon){
-		weapon = GameObject.FindGameObjectWithTag("Weapon");
-		if(weapon){
+		// weapon = GameObject.FindGameObjectWithTag("Weapon");
+		GunScript gun = GameObject.FindObjectOfType<GunScript>();
+		if(gun != null){
+			weapon = gun.gameObject;
 			if(weapon.GetComponent<GunScript>()){
 				try{
 					gun = GameObject.FindGameObjectWithTag("Weapon").GetComponent<GunScript>();

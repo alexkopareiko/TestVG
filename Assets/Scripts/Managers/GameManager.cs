@@ -3,13 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GameState
-{
-    Play,
-    PlayerDied,
-    Pause,
-}
-
 public class GameManager : MonoBehaviour
 {
     private static GameManager s_Instance;
@@ -33,9 +26,7 @@ public class GameManager : MonoBehaviour
 
     public int level => _level;
 
-    private void OnEnable()
-    {
-    }
+    public bool isGamePaused => _isGamePaused;
 
     private void OnDisable()
     {
@@ -67,13 +58,31 @@ public class GameManager : MonoBehaviour
     {
         _isGamePaused = value;
         Time.timeScale = value ? 0 : 1;
+
+        Cursor.visible = value;
+        Cursor.lockState = value ? CursorLockMode.None : CursorLockMode.Locked;
+    }
+
+    public void GameOver()
+    {
+        PauseGame(true);
+        SaveManager.Instance.LoseCount++;
+        UIManager.Instance.ShowGameOverCanvas();
+    }
+
+    public void Win()
+    {
+        _level++;
+        PauseGame(true);
+        SaveManager.Instance.WinCount++;
+        UIManager.Instance.ShowWinCanvas();
     }
 
 
-    private void StartLevel()
+    public void StartLevel()
     {
+        UIManager.Instance.ShowPlayCanvas();
+        Player.Instance.actorStats.Heal(Player.Instance.actorStats.maxHealth);
         SpawnManager.Instance.SpawnEnemies();
     }
-
-
 }

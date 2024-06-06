@@ -21,6 +21,11 @@ public class ActorStats : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
     public virtual void TakeDamage(float damage)
     {
         _health -= damage;
@@ -37,6 +42,15 @@ public class ActorStats : MonoBehaviour
         }
     }
 
+    public virtual void Heal(float healAmount)
+    {
+        _health += healAmount;
+        if (_health > _maxHealth)
+        {
+            _health = _maxHealth;
+        }
+    }
+
     public virtual void Die()
     {
         if (_animator != null)
@@ -44,7 +58,19 @@ public class ActorStats : MonoBehaviour
             _animator.Play("Die");
         }
 
-        Destroy(gameObject, 2f);
-    }
+        if (gameObject.CompareTag("Player"))
+        {
+            GameManager.Instance.GameOver();
+        }
+        else
+        {
+            Enemy enemy = GetComponent<Enemy>();
+            if (enemy != null)
+                enemy.Die();
 
+            SpawnManager.Instance.RemoveMe(gameObject);
+                
+            Destroy(gameObject, 2f);
+        }
+    }
 }

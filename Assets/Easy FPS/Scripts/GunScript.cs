@@ -82,6 +82,9 @@ public class GunScript : MonoBehaviour {
 	*/
 	void Update(){
 
+		if (GameManager.Instance.isGamePaused)
+			return;
+
 		Animations();
 
 		GiveCameraScriptMySensitvity();
